@@ -48,21 +48,26 @@ config.keys = {
 
     -- command pallete
     {
-        key = 'P',
-        mods = zsa_meh,
-        action = act.ActivateCommandPalette,
-    },
-    {
-        key = 'F11',
-        mods = zsa_meh,
+        key = [[\]],
+        mods = 'LEADER',
         action = act.ActivateCommandPalette,
     },
 
     -- launcher
     {
-        key = 'F12',
+        key = 'F11',
         mods = zsa_meh,
         action = act.ShowLauncher,
+    },
+    {
+        key = 'F12',
+        mods = zsa_meh,
+        action = act.ShowLauncherArgs({ flags = 'FUZZY|TABS' }),
+    },
+    {
+        key = 'F13',
+        mods = zsa_meh,
+        action = act.ShowLauncherArgs({ flags = 'FUZZY|WORKSPACES' }),
     },
 
     -- debug overlay
@@ -72,9 +77,9 @@ config.keys = {
         action = act.ShowDebugOverlay,
     },
     {
-        key = 'F20',
+        key = 'F16',
         mods = zsa_meh,
-        action = act.ShowLauncher
+        action = act.ShowDebugOverlay,
     },
 
     -- font-size mode
@@ -123,7 +128,7 @@ config.keys = {
     -- clear
     {
         key = 'K',
-        mods = zsa_meh,
+        mods = 'LEADER',
         action = act.ClearScrollback('ScrollbackAndViewport'),
     },
 
@@ -186,8 +191,8 @@ config.keys = {
 
     -- close current tab
     {
-        key = 'W',
-        mods = zsa_meh,
+        key = 'w',
+        mods = 'LEADER',
         action = act.CloseCurrentTab({ confirm = true }),
     },
 
@@ -238,6 +243,69 @@ config.keys = {
         }),
     },
 
+    -- split horizontal
+    {
+        key = [[|]],
+        mods = zsa_meh,
+        action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
+    },
+
+    -- split vertical
+    {
+        key = '"',
+        mods = zsa_meh,
+        action = act.SplitVertical({ domain = 'CurrentPaneDomain' }),
+    },
+
+    -- zoom
+    {
+        key = 'Z',
+        mods = zsa_meh,
+        action = act.TogglePaneZoomState,
+    },
+
+    -- navigation
+    {
+        key = 'H',
+        mods = zsa_meh,
+        action = act.ActivatePaneDirection('Left'),
+    },
+    {
+        key = 'J',
+        mods = zsa_meh,
+        action = act.ActivatePaneDirection('Down'),
+    },
+    {
+        key = 'K',
+        mods = zsa_meh,
+        action = act.ActivatePaneDirection('Up'),
+    },
+    {
+        key = 'L',
+        mods = zsa_meh,
+        action = act.ActivatePaneDirection('Right'),
+    },
+    -- by index
+    {
+        key = 'P',
+        mods = zsa_meh,
+        action = act.PaneSelect({ alphabet = '1234567890', mode = 'Activate' }),
+    },
+    {
+        key = 'p',
+        mods = 'LEADER',
+        action = act.PaneSelect({ alphabet = '1234567890', mode = 'SwapWithActiveKeepFocus' }),
+    },
+
+    -- activate-pane mode
+    {
+        key = 'a',
+        mods = 'LEADER',
+        action = act.ActivateKeyTable({
+            name = 'activate_pane',
+            timeout_milliseconds = 1000,
+        }),
+    },
     -- navigation --
     -- scroll up
     {
@@ -283,33 +351,27 @@ end
 config.key_tables = {
     resize_pane = {
         { key = 'LeftArrow', action = act.AdjustPaneSize({ 'Left', 1 }) },
+        { key = 'LeftArrow', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Left', 10 }) },
         { key = 'h', action = act.AdjustPaneSize({ 'Left', 1 }) },
+        { key = 'h', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Left', 10 }) },
 
         { key = 'RightArrow', action = act.AdjustPaneSize({ 'Right', 1 }) },
+        { key = 'RightArrow', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Right', 10 }) },
         { key = 'l', action = act.AdjustPaneSize({ 'Right', 1 }) },
+        { key = 'l', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Right', 10 }) },
 
         { key = 'UpArrow', action = act.AdjustPaneSize({ 'Up', 1 }) },
+        { key = 'UpArrow', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Up', 10 }) },
         { key = 'k', action = act.AdjustPaneSize({ 'Up', 1 }) },
+        { key = 'k', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Up', 10 }) },
 
         { key = 'DownArrow', action = act.AdjustPaneSize({ 'Down', 1 }) },
+        { key = 'DownArrow', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Down', 10 }) },
         { key = 'j', action = act.AdjustPaneSize({ 'Down', 1 }) },
+        { key = 'j', mods = 'SHIFT', action = act.AdjustPaneSize({ 'Down', 10 }) },
 
         -- Cancel the mode by pressing escape
         { key = 'Escape', action = 'PopKeyTable' },
-    },
-
-    activate_pane = {
-        { key = 'LeftArrow', action = act.ActivatePaneDirection('Left') },
-        { key = 'h', action = act.ActivatePaneDirection('Left') },
-
-        { key = 'RightArrow', action = act.ActivatePaneDirection('Right') },
-        { key = 'l', action = act.ActivatePaneDirection('Right') },
-
-        { key = 'UpArrow', action = act.ActivatePaneDirection('Up') },
-        { key = 'k', action = act.ActivatePaneDirection('Up') },
-
-        { key = 'DownArrow', action = act.ActivatePaneDirection('Down') },
-        { key = 'j', action = act.ActivatePaneDirection('Down') },
     },
 
     move_tab = {
@@ -330,12 +392,13 @@ config.key_tables = {
     },
 
     font_size = {
-        -- decrease font size
         { key = '-', action = act.DecreaseFontSize },
-        -- increase font size
+        { key = 'j', action = act.DecreaseFontSize },
         { key = '=', action = act.IncreaseFontSize },
-        -- reset font size
+        { key = 'k', action = act.IncreaseFontSize },
         { key = '0', action = act.ResetFontSize },
+        { key = 'r', action = act.ResetFontSize },
+
         -- Cancel the mode by pressing escape
         { key = 'Escape', action = 'PopKeyTable' },
     },
