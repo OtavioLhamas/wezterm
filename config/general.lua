@@ -5,6 +5,8 @@ return {
     exit_behavior_messaging = 'Verbose',
     status_update_interval = 1000,
 
+    audible_bell = "Disabled",
+
     scrollback_lines = 5000,
 
     front_end = 'WebGpu',
