@@ -5,4 +5,5 @@ require('events.right-status').setup()
 return Config:init()
     :append(require('config.appearance'))
     :append(require('config.bindings'))
-    :append(require('config.general')).options
+    :append(require('config.general'))
+    :append(require('config.launch')).options
