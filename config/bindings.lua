@@ -1,11 +1,13 @@
 local wezterm = require('wezterm')
 local act = wezterm.action
 
+local backdrops = require('utils.backdrops')
+
 local zsa_meh = 'ALT|CTRL|SHIFT'
 
 local mod = {
     MEH = zsa_meh,
-    LEADER = 'LEADER'
+    LEADER = 'LEADER',
 }
 local leader = { key = 'Space', mods = mod.MEH }
 
@@ -44,6 +46,29 @@ local keys = {
         key = 'raw:192', -- F14
         mods = mod.MEH,
         action = act.ShowDebugOverlay,
+    },
+
+    -- backdrops
+    {
+        key = 'b',
+        mods = mod.LEADER,
+        action = wezterm.action_callback(function(window, _pane)
+            backdrops:random(window)
+        end),
+    },
+    {
+        key = ',',
+        mods = mod.LEADER,
+        action = wezterm.action_callback(function(window, _pane)
+            backdrops:cycle_back(window)
+        end),
+    },
+    {
+        key = '.',
+        mods = mod.LEADER,
+        action = wezterm.action_callback(function(window, _pane)
+            backdrops:cycle_forward(window)
+        end),
     },
 
     -- font-size mode
