@@ -91,7 +91,7 @@ local keys = {
 
     -- clear
     {
-        key = 'K',
+        key = 'k',
         mods = mod.LEADER,
         action = act.ClearScrollback('ScrollbackAndViewport'),
     },
@@ -387,6 +387,8 @@ local mouse_bindings = {
         action = act.OpenLinkAtMouseCursor,
     },
 }
+--#endregion
+-----------------------------------------------------------------------------------------------------------------------
 
 return {
     disable_default_key_bindings = disable_default_key_bindings,
