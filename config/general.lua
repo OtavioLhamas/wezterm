@@ -1,3 +1,5 @@
+local gpu_adapters = require('utils.gpu_adapter')
+
 return {
     -- behaviours
     automatically_reload_config = true,
@@ -10,6 +12,8 @@ return {
     scrollback_lines = 5000,
 
     front_end = 'WebGpu',
+    webgpu_power_preference = 'HighPerformance',
+    webgpu_preferred_adapter = gpu_adapters:pick_best(),
 
     hyperlink_rules = {
         -- Matches: a URL in parens: (URL)
