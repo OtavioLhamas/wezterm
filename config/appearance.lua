@@ -39,8 +39,8 @@ return {
     -- window
     window_decorations = 'INTEGRATED_BUTTONS|RESIZE',
     window_padding = {
-        left = 5,
-        right = 5,
+        left = 0,
+        right = 0,
         top = 5,
         bottom = 5,
     },
