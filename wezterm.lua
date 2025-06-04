@@ -1,7 +1,8 @@
 local Config = require('config')
 
 require('events.right-status').setup()
-require('utils.backdrops'):set_files('/home/otaviolhamas/Pictures/Wallpapers'):random()
+local path = require('utils.platform').is_win and 'H:/' or '/mnt/ssd/'
+require('utils.backdrops'):set_files(path .. 'Pictures/Wallpapers'):random()
 
 return Config:init()
     :append(require('config.appearance'))

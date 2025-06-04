@@ -1,5 +1,5 @@
 local wezterm = require('wezterm')
-local platform = require('utils.platform')()
+local platform = require('utils.platform')
 
 local mocha = wezterm:get_builtin_color_schemes()['Catppuccin Mocha']
 
