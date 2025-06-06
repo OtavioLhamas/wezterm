@@ -3,15 +3,35 @@ local options = {
     launch_menu = {},
 }
 
-local platform = require('utils.platform')
-
-options.default_prog = platform.is_win and { 'pwsh.exe' } or { 'fish', '-l' }
-
 options.launch_menu = {
     { label = 'Bash', args = { 'bash', '-l' } },
-    { label = 'Fish', args = { 'fish', '-l' } },
     { label = 'Zsh', args = { 'zsh', '-l' } },
-    { label = 'PowerShell', args = { 'pwsh', '-l' } },
 }
+
+local platform = require('utils.platform')
+
+if platform.is_win then
+    -- Get PowerShell version table
+    local powershell_cmd = require('wezterm').execute_command({
+        args = { 'powershell.exe', '-NoProfile', '-Command', '$PSVersionTable.PSVersion.Major' },
+        hidden = true,
+    })
+
+    local powershell_output = powershell_cmd:wait_for_output()
+
+    -- Trim whitespace and newlines from the output
+    local major_version = tonumber(string.match(powershell_output, '^%s*(%d+)%s*$'))
+
+    if major_version and tonumber(major_version) >= 7 then
+        options.default_prog = { 'pwsh.exe' }
+        table.insert(options.launch_menu, { label = 'PowerShell', args = { 'pwsh', '-l' } })
+    else
+        options.default_prog = { 'powershell.exe' }
+        options.launch_menu:insert({ label = 'PowerShell', args = { 'powershell' } })
+    end
+else
+    options.default_prog = { 'fish', '-l' }
+    table.insert(options.launch_menu, { label = 'Fish', args = { 'fish', '-l' } })
+end
 
 return options
