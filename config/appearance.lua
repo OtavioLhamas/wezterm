@@ -28,12 +28,12 @@ return {
             source = { Color = mocha['background'] },
             height = '100%',
             width = '100%',
-            opacity = 0.90,
+            opacity = 0.95,
         },
     },
     inactive_pane_hsb = {
         saturation = 0.9,
-        brightness = 0.65,
+        brightness = 0.5,
     },
 
     -- window
