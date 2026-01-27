@@ -1,11 +1,18 @@
-local Config = require('config')
+local wezterm = require('wezterm')
+
+local config = {}
+if wezterm.config_builder then
+    config = wezterm.config_builder()
+end
 
 require('events.right-status').setup()
+
 local path = require('utils.platform').is_win and 'H:/' or '/mnt/ssd/'
 require('utils.backdrops'):set_files(path .. 'Pictures/Wallpapers'):random()
 
-return Config:init()
-    :append(require('config.appearance'))
-    :append(require('config.bindings'))
-    :append(require('config.general'))
-    :append(require('config.launch')).options
+require('config.general'):apply(config)
+require('config.appearance'):apply(config)
+require('config.bindings'):apply(config)
+require('config.launch'):apply(config)
+
+return config

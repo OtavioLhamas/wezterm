@@ -1,21 +1,22 @@
+local M = {}
 local gpu_adapters = require('utils.gpu_adapter')
 
-return {
+function M:apply(config)
     -- behaviours
-    automatically_reload_config = true,
-    exit_behavior = 'CloseOnCleanExit', -- if the shell program exited with a successful status
-    exit_behavior_messaging = 'Verbose',
-    status_update_interval = 1000,
+    config.automatically_reload_config = true
+    config.exit_behavior = 'CloseOnCleanExit' -- if the shell program exited with a successful status
+    config.exit_behavior_messaging = 'Verbose'
+    config.status_update_interval = 1000
 
-    audible_bell = 'Disabled',
+    config.audible_bell = 'Disabled'
 
-    scrollback_lines = 5000,
+    config.scrollback_lines = 5000
 
-    front_end = 'WebGpu',
-    webgpu_power_preference = 'HighPerformance',
-    webgpu_preferred_adapter = gpu_adapters:pick_best(),
+    config.front_end = 'WebGpu'
+    config.webgpu_power_preference = 'HighPerformance'
+    config.webgpu_preferred_adapter = gpu_adapters:pick_best()
 
-    hyperlink_rules = {
+    config.hyperlink_rules = {
         -- Matches: a URL in parens: (URL)
         {
             regex = '\\((\\w+://\\S+)\\)',
@@ -50,7 +51,9 @@ return {
             regex = '\\b\\w+@[\\w-]+(\\.[\\w-]+)+\\b',
             format = 'mailto:$0',
         },
-    },
+    }
 
-    warn_about_missing_glyphs = false,
-}
+    config.warn_about_missing_glyphs = false
+end
+
+return M

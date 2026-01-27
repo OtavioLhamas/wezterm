@@ -1,10 +1,11 @@
 local wezterm = require('wezterm')
-local act = wezterm.action
 
+local M = {}
+
+local act = wezterm.action
 local backdrops = require('utils.backdrops')
 
 local zsa_meh = 'ALT|CTRL|SHIFT'
-
 local mod = {
     MEH = zsa_meh,
     LEADER = 'LEADER',
@@ -415,10 +416,12 @@ local mouse_bindings = {
 --#endregion
 -----------------------------------------------------------------------------------------------------------------------
 
-return {
-    disable_default_key_bindings = disable_default_key_bindings,
-    leader = leader,
-    keys = keys,
-    key_tables = key_tables,
-    mouse_bindings = mouse_bindings,
-}
+function M:apply(config)
+    config.disable_default_key_bindings = disable_default_key_bindings
+    config.leader = leader
+    config.keys = keys
+    config.key_tables = key_tables
+    config.mouse_bindings = mouse_bindings
+end
+
+return M

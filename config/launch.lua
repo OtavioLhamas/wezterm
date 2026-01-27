@@ -1,37 +1,58 @@
-local options = {
-    default_prog = {},
-    launch_menu = {},
-}
+local wezterm = require('wezterm')
+local M = {}
 
-options.launch_menu = {
+local default_prog = { 'bash', '-l' }
+local launch_menu = {
     { label = 'Bash', args = { 'bash', '-l' } },
     { label = 'Zsh', args = { 'zsh', '-l' } },
 }
 
-local platform = require('utils.platform')
+function M:apply(config)
+    local platform = require('utils.platform')
 
-if platform.is_win then
-    -- Get PowerShell version table
-    local powershell_cmd = require('wezterm').execute_command({
-        args = { 'powershell.exe', '-NoProfile', '-Command', '$PSVersionTable.PSVersion.Major' },
-        hidden = true,
-    })
+    if platform.is_win then
+        -- Helper: check if executable exists in Windows PATH
+        -- https://github.com/pasanec/wezterm_win/blob/main/wezterm.lua
+        local function exe_exists(name)
+            local ok, _stdout, _stderr = wezterm.run_child_process({ 'where', name })
+            return ok
+        end
 
-    local powershell_output = powershell_cmd:wait_for_output()
+        local has_pwsh = exe_exists('pwsh.exe')
+        local has_powershell = exe_exists('powershell.exe')
+        local has_cmd = exe_exists('cmd.exe')
 
-    -- Trim whitespace and newlines from the output
-    local major_version = tonumber(string.match(powershell_output, '^%s*(%d+)%s*$'))
-
-    if major_version and tonumber(major_version) >= 7 then
-        options.default_prog = { 'pwsh.exe' }
-        table.insert(options.launch_menu, { label = 'PowerShell', args = { 'pwsh', '-l' } })
+        if has_cmd then
+            default_prog = { 'cmd.exe' }
+            table.insert(launch_menu, {
+                label = 'Command Prompt',
+                domain = { DomainName = 'local' },
+                args = { 'cmd.exe' },
+            })
+        end
+        if has_powershell then
+            default_prog = { 'powershell.exe', '-NoLogo' }
+            table.insert(launch_menu, {
+                label = 'PowerShell (Windows)',
+                domain = { DomainName = 'local' },
+                args = { 'powershell.exe', '-NoLogo' },
+            })
+        end
+        if has_pwsh then
+            default_prog = { 'pwsh.exe', '-NoLogo' }
+            table.insert(launch_menu, {
+                label = 'PowerShell (pwsh)',
+                domain = { DomainName = 'local' }, -- force Windows domain
+                args = { 'pwsh.exe', '-NoLogo' },
+            })
+        end
     else
-        options.default_prog = { 'powershell.exe' }
-        options.launch_menu:insert({ label = 'PowerShell', args = { 'powershell' } })
+        default_prog = { 'fish', '-l' }
+        table.insert(launch_menu, { label = 'Fish', args = { 'fish', '-l' } })
     end
-else
-    options.default_prog = { 'fish', '-l' }
-    table.insert(options.launch_menu, { label = 'Fish', args = { 'fish', '-l' } })
+
+    config.default_prog = default_prog
+    config.launch_menu = launch_menu
 end
 
-return options
+return M
