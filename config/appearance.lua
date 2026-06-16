@@ -4,8 +4,9 @@ local M = {}
 
 -----------------------------------------------------------------------------------------------------------------------
 --#region Color scheme
-local color_scheme = 'Catppuccin Mocha'
+local color_scheme = 'rose-pine'
 local mocha = wezterm:get_builtin_color_schemes()['Catppuccin Mocha']
+local rose = wezterm:get_builtin_color_schemes()['rose-pine']
 --#endregion
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -24,10 +25,10 @@ local background = {
         horizontal_align = 'Center',
     },
     {
-        source = { Color = mocha['background'] },
+        source = { Color = rose['background'] },
         height = '100%',
         width = '100%',
-        opacity = 0.95,
+        opacity = 0.88,
     },
 }
 --#endregion
