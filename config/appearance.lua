@@ -42,10 +42,10 @@ local inactive_pane_hsb = {
 }
 local window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
 local window_padding = {
-    left = 0,
-    right = 0,
-    top = 5,
-    bottom = 5,
+    left = 10,
+    right = 10,
+    top = 10,
+    bottom = 10,
 }
 --#endregion
 -----------------------------------------------------------------------------------------------------------------------
