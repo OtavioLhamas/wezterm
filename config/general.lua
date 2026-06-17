@@ -9,6 +9,7 @@ function M:apply(config)
     config.status_update_interval = 1000
 
     config.audible_bell = 'Disabled'
+    config.hide_mouse_cursor_when_typing = true
 
     config.scrollback_lines = 5000
 
